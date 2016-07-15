@@ -34,6 +34,11 @@
             this.targetTable = new System.Windows.Forms.TextBox();
             this.generatedQuery = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtIgnore = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.rbMsSql = new System.Windows.Forms.RadioButton();
+            this.rbOracle = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtConnStr = new System.Windows.Forms.TextBox();
             this.lblMessage = new System.Windows.Forms.Label();
@@ -66,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 396);
+            this.label2.Location = new System.Drawing.Point(6, 401);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 17);
             this.label2.TabIndex = 2;
@@ -92,6 +97,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtIgnore);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.rbMsSql);
+            this.groupBox1.Controls.Add(this.rbOracle);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtConnStr);
             this.groupBox1.Controls.Add(this.lblMessage);
@@ -107,6 +117,54 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
             this.groupBox1.Leave += new System.EventHandler(this.groupBox1_Leave);
+            // 
+            // txtIgnore
+            // 
+            this.txtIgnore.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtIgnore.Location = new System.Drawing.Point(108, 527);
+            this.txtIgnore.Name = "txtIgnore";
+            this.txtIgnore.Size = new System.Drawing.Size(506, 28);
+            this.txtIgnore.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 525);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(110, 51);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Columns\r\nto be ignored\r\n(seperate with ,)";
+            // 
+            // rbMsSql
+            // 
+            this.rbMsSql.AutoSize = true;
+            this.rbMsSql.Location = new System.Drawing.Point(224, 470);
+            this.rbMsSql.Name = "rbMsSql";
+            this.rbMsSql.Size = new System.Drawing.Size(77, 21);
+            this.rbMsSql.TabIndex = 13;
+            this.rbMsSql.Text = "MSSQL";
+            this.rbMsSql.UseVisualStyleBackColor = true;
+            // 
+            // rbOracle
+            // 
+            this.rbOracle.AutoSize = true;
+            this.rbOracle.Checked = true;
+            this.rbOracle.Location = new System.Drawing.Point(108, 470);
+            this.rbOracle.Name = "rbOracle";
+            this.rbOracle.Size = new System.Drawing.Size(71, 21);
+            this.rbOracle.TabIndex = 12;
+            this.rbOracle.TabStop = true;
+            this.rbOracle.Text = "Oracle";
+            this.rbOracle.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 461);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 34);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Target \r\nRDBMS";
             // 
             // label4
             // 
@@ -131,14 +189,14 @@
             this.lblMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lblMessage.Location = new System.Drawing.Point(9, 559);
+            this.lblMessage.Location = new System.Drawing.Point(351, 616);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(0, 29);
             this.lblMessage.TabIndex = 5;
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(108, 456);
+            this.btnGenerate.Location = new System.Drawing.Point(108, 600);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(212, 68);
             this.btnGenerate.TabIndex = 4;
@@ -210,6 +268,11 @@
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtConnStr;
+        private System.Windows.Forms.RadioButton rbMsSql;
+        private System.Windows.Forms.RadioButton rbOracle;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtIgnore;
+        private System.Windows.Forms.Label label6;
     }
 }
 

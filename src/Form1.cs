@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 
 namespace migrator
 {
@@ -29,6 +28,8 @@ namespace migrator
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            var ignoreColumns = txtIgnore.Text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList().FindAll(o => (o != null && o.Trim() != ""));
+
             SqlConnection con = new SqlConnection(txtConnStr.Text);
 
             using (con)
@@ -42,58 +43,72 @@ namespace migrator
 
                 foreach (DataRow row in table.Rows)
                 {
+
                     string COLS = "";
                     string VALS = "";
 
                     for (int i = 0; i < row.ItemArray.Length; i++)
                     {
-                        COLS += "\"" + row.Table.Columns[i].ColumnName + "\",";
 
-                        if (row.Table.Columns[i].ColumnName == "CREATETIME"
-                            || row.Table.Columns[i].ColumnName == "UPDATETIME")
+                        if (!ignoreColumns.Contains(row.Table.Columns[i].ColumnName))
                         {
 
-                            VALS += "sysdate,";
+                            COLS += "\"" + row.Table.Columns[i].ColumnName + "\",";
 
-                        }
-                        else if (row.Table.Columns[i].ColumnName == "CREATEUSERID" || row.Table.Columns[i].ColumnName == "UPDATEUSERID")
-                        {
-                            VALS += "1,";
-                        }
-                        else
-                        {
-                            if (row.Table.Columns[i].DataType == typeof(DateTime) || row.Table.Columns[i].DataType == typeof(string))
+
+                            if (row.Table.Columns[i].ColumnName == "CREATETIME"
+                                || row.Table.Columns[i].ColumnName == "UPDATETIME")
                             {
-                                if (row[i] == null)
+
+                                if (rbOracle.Checked)
                                 {
-                                    VALS += "NULL,";
+                                    VALS += "sysdate,";
                                 }
                                 else
                                 {
-                                    string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
-                                    VALS += "'" + val + "'" + ",";
+                                    VALS += "getdate(),";
                                 }
+
                             }
-                            else if (row.Table.Columns[i].DataType == typeof(int))
+                            else if (row.Table.Columns[i].ColumnName == "CREATEUSERID" || row.Table.Columns[i].ColumnName == "UPDATEUSERID")
                             {
-                                if (row[i] == null)
-                                {
-                                    VALS += "0,";
-                                }
-                                else
-                                {
-                                    VALS += row[i] + ",";
-                                }
+                                VALS += "1,";
                             }
-                            else//bool
+                            else
                             {
-                                if (row[i].ToString() == "True")
+                                if (row.Table.Columns[i].DataType == typeof(DateTime) || row.Table.Columns[i].DataType == typeof(string))
                                 {
-                                    VALS += "1,";
+                                    if (row[i] == null)
+                                    {
+                                        VALS += "NULL,";
+                                    }
+                                    else
+                                    {
+                                        string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
+                                        VALS += "'" + val + "'" + ",";
+                                    }
                                 }
-                                else
+                                else if (row.Table.Columns[i].DataType == typeof(int))
                                 {
-                                    VALS += "0,";
+                                    if (row[i] == null)
+                                    {
+                                        VALS += "0,";
+                                    }
+                                    else
+                                    {
+                                        VALS += row[i] + ",";
+                                    }
+                                }
+                                else//bool
+                                {
+                                    if (row[i].ToString() == "True")
+                                    {
+                                        VALS += "1,";
+                                    }
+                                    else
+                                    {
+                                        VALS += "0,";
+                                    }
                                 }
                             }
                         }
@@ -126,9 +141,9 @@ namespace migrator
 
         private void targetTable_Enter(object sender, EventArgs e)
         {
-            targetTable.Text = 
+            targetTable.Text =
                 sourceQuery.Text.Split(
-                    new string[] { "FROM" }, 
+                    new string[] { "FROM" },
                     StringSplitOptions.RemoveEmptyEntries)[1]
                     .Split(
                     new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
