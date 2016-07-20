@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace migrator
 {
-    public partial class Form1 : Form
+    public partial class Form_QueryGenerator : Form
     {
-        public Form1()
+        public Form_QueryGenerator()
         {
             InitializeComponent();
         }
