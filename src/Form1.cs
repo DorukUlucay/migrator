@@ -76,7 +76,7 @@ namespace migrator
                             }
                             else
                             {
-                                if (row.Table.Columns[i].DataType == typeof(DateTime) || row.Table.Columns[i].DataType == typeof(string))
+                                if (row.Table.Columns[i].DataType == typeof(DateTime))
                                 {
                                     if (row[i] == null)
                                     {
@@ -86,6 +86,18 @@ namespace migrator
                                     {
                                         string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
                                         VALS += "'" + val + "'" + ",";
+                                    }
+                                }
+                                else if (row.Table.Columns[i].DataType == typeof(string))
+                                {
+                                    if (row[i] == null)
+                                    {
+                                        VALS += "NULL,";
+                                    }
+                                    else
+                                    {
+                                        string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
+                                        VALS += "N('" + val + "')" + ",";
                                     }
                                 }
                                 else if (row.Table.Columns[i].DataType == typeof(int))
@@ -141,12 +153,19 @@ namespace migrator
 
         private void targetTable_Enter(object sender, EventArgs e)
         {
-            targetTable.Text =
-                sourceQuery.Text.Split(
+            try
+            {
+                targetTable.Text =
+                    sourceQuery.Text.Split(
                     new string[] { "FROM" },
                     StringSplitOptions.RemoveEmptyEntries)[1]
                     .Split(
                     new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+            }
+            catch (Exception)
+            {
+                targetTable.Text = "";
+            }
         }
     }
 }
