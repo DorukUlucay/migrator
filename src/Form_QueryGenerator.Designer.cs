@@ -46,14 +46,22 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCopyToClipboard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.rbUpdate = new System.Windows.Forms.RadioButton();
+            this.rbInsert = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.txtWhereCols = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // sourceQuery
             // 
             this.sourceQuery.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sourceQuery.Location = new System.Drawing.Point(108, 94);
+            this.sourceQuery.Location = new System.Drawing.Point(107, 64);
             this.sourceQuery.Multiline = true;
             this.sourceQuery.Name = "sourceQuery";
             this.sourceQuery.Size = new System.Drawing.Size(506, 277);
@@ -62,7 +70,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 111);
+            this.label1.Location = new System.Drawing.Point(5, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 17);
             this.label1.TabIndex = 1;
@@ -71,7 +79,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 401);
+            this.label2.Location = new System.Drawing.Point(5, 352);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 17);
             this.label2.TabIndex = 2;
@@ -80,7 +88,7 @@
             // targetTable
             // 
             this.targetTable.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.targetTable.Location = new System.Drawing.Point(108, 396);
+            this.targetTable.Location = new System.Drawing.Point(107, 347);
             this.targetTable.Name = "targetTable";
             this.targetTable.Size = new System.Drawing.Size(506, 28);
             this.targetTable.TabIndex = 3;
@@ -97,10 +105,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtWhereCols);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.panel2);
+            this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.txtIgnore);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.rbMsSql);
-            this.groupBox1.Controls.Add(this.rbOracle);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtConnStr);
@@ -121,7 +131,7 @@
             // txtIgnore
             // 
             this.txtIgnore.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIgnore.Location = new System.Drawing.Point(108, 527);
+            this.txtIgnore.Location = new System.Drawing.Point(107, 458);
             this.txtIgnore.Name = "txtIgnore";
             this.txtIgnore.Size = new System.Drawing.Size(506, 28);
             this.txtIgnore.TabIndex = 15;
@@ -129,7 +139,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 525);
+            this.label6.Location = new System.Drawing.Point(10, 463);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(110, 51);
             this.label6.TabIndex = 14;
@@ -138,7 +148,7 @@
             // rbMsSql
             // 
             this.rbMsSql.AutoSize = true;
-            this.rbMsSql.Location = new System.Drawing.Point(224, 470);
+            this.rbMsSql.Location = new System.Drawing.Point(80, 3);
             this.rbMsSql.Name = "rbMsSql";
             this.rbMsSql.Size = new System.Drawing.Size(77, 21);
             this.rbMsSql.TabIndex = 13;
@@ -149,7 +159,7 @@
             // 
             this.rbOracle.AutoSize = true;
             this.rbOracle.Checked = true;
-            this.rbOracle.Location = new System.Drawing.Point(108, 470);
+            this.rbOracle.Location = new System.Drawing.Point(3, 3);
             this.rbOracle.Name = "rbOracle";
             this.rbOracle.Size = new System.Drawing.Size(71, 21);
             this.rbOracle.TabIndex = 12;
@@ -160,7 +170,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 461);
+            this.label5.Location = new System.Drawing.Point(10, 418);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 34);
             this.label5.TabIndex = 11;
@@ -169,7 +179,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 39);
+            this.label4.Location = new System.Drawing.Point(6, 26);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 34);
             this.label4.TabIndex = 10;
@@ -178,7 +188,7 @@
             // txtConnStr
             // 
             this.txtConnStr.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConnStr.Location = new System.Drawing.Point(108, 43);
+            this.txtConnStr.Location = new System.Drawing.Point(107, 30);
             this.txtConnStr.Name = "txtConnStr";
             this.txtConnStr.Size = new System.Drawing.Size(506, 28);
             this.txtConnStr.TabIndex = 9;
@@ -235,20 +245,81 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Generated Query";
             // 
-            // Form1
+            // rbUpdate
+            // 
+            this.rbUpdate.AutoSize = true;
+            this.rbUpdate.Location = new System.Drawing.Point(73, 3);
+            this.rbUpdate.Name = "rbUpdate";
+            this.rbUpdate.Size = new System.Drawing.Size(75, 21);
+            this.rbUpdate.TabIndex = 18;
+            this.rbUpdate.Text = "Update";
+            this.rbUpdate.UseVisualStyleBackColor = true;
+            // 
+            // rbInsert
+            // 
+            this.rbInsert.AutoSize = true;
+            this.rbInsert.Checked = true;
+            this.rbInsert.Location = new System.Drawing.Point(3, 3);
+            this.rbInsert.Name = "rbInsert";
+            this.rbInsert.Size = new System.Drawing.Size(64, 21);
+            this.rbInsert.TabIndex = 17;
+            this.rbInsert.TabStop = true;
+            this.rbInsert.Text = "Insert";
+            this.rbInsert.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.rbInsert);
+            this.panel1.Controls.Add(this.rbUpdate);
+            this.panel1.Location = new System.Drawing.Point(107, 382);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(244, 31);
+            this.panel1.TabIndex = 19;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rbOracle);
+            this.panel2.Controls.Add(this.rbMsSql);
+            this.panel2.Location = new System.Drawing.Point(107, 419);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(187, 33);
+            this.panel2.TabIndex = 20;
+            // 
+            // txtWhereCols
+            // 
+            this.txtWhereCols.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWhereCols.Location = new System.Drawing.Point(107, 524);
+            this.txtWhereCols.Name = "txtWhereCols";
+            this.txtWhereCols.Size = new System.Drawing.Size(506, 28);
+            this.txtWhereCols.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 529);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 17);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Where Columns";
+            // 
+            // Form_QueryGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 715);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "Form_QueryGenerator";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -273,6 +344,12 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtIgnore;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RadioButton rbUpdate;
+        private System.Windows.Forms.RadioButton rbInsert;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox txtWhereCols;
+        private System.Windows.Forms.Label label7;
     }
 }
 

@@ -39,98 +39,147 @@ namespace migrator
                 da.Fill(table);
 
                 string q = "INSERT INTO " + targetTable.Text + "({0}) VALUES({1});";
+                string uq = "UPDATE {0} SET {1} {2}";
                 string finalQ = "";
 
                 foreach (DataRow row in table.Rows)
                 {
 
-                    string COLS = "";
-                    string VALS = "";
-
-                    for (int i = 0; i < row.ItemArray.Length; i++)
+                    if (rbInsert.Checked)
                     {
+                        string COLS = "";
+                        string VALS = "";
 
-                        if (!ignoreColumns.Contains(row.Table.Columns[i].ColumnName))
+                        for (int i = 0; i < row.ItemArray.Length; i++)
                         {
 
-                            COLS += "\"" + row.Table.Columns[i].ColumnName + "\",";
-
-
-                            if (row.Table.Columns[i].ColumnName == "CREATETIME"
-                                || row.Table.Columns[i].ColumnName == "UPDATETIME")
+                            if (!ignoreColumns.Contains(row.Table.Columns[i].ColumnName))
                             {
 
-                                if (rbOracle.Checked)
+                                COLS += "\"" + row.Table.Columns[i].ColumnName + "\",";
+
+
+                                if (row.Table.Columns[i].ColumnName == "CREATETIME"
+                                    || row.Table.Columns[i].ColumnName == "UPDATETIME")
                                 {
-                                    VALS += "sysdate,";
+
+                                    if (rbOracle.Checked)
+                                    {
+                                        VALS += "sysdate,";
+                                    }
+                                    else
+                                    {
+                                        VALS += "getdate(),";
+                                    }
+
+                                }
+                                else if (row.Table.Columns[i].ColumnName == "CREATEUSERID" || row.Table.Columns[i].ColumnName == "UPDATEUSERID")
+                                {
+                                    VALS += "1,";
                                 }
                                 else
                                 {
-                                    VALS += "getdate(),";
-                                }
-
-                            }
-                            else if (row.Table.Columns[i].ColumnName == "CREATEUSERID" || row.Table.Columns[i].ColumnName == "UPDATEUSERID")
-                            {
-                                VALS += "1,";
-                            }
-                            else
-                            {
-                                if (row.Table.Columns[i].DataType == typeof(DateTime))
-                                {
-                                    if (row[i] == null)
+                                    if (row.Table.Columns[i].DataType == typeof(DateTime))
                                     {
-                                        VALS += "NULL,";
+                                        if (row[i] == null)
+                                        {
+                                            VALS += "NULL,";
+                                        }
+                                        else
+                                        {
+                                            string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
+                                            VALS += "'" + val + "'" + ",";
+                                        }
                                     }
-                                    else
+                                    else if (row.Table.Columns[i].DataType == typeof(string))
                                     {
-                                        string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
-                                        VALS += "'" + val + "'" + ",";
+                                        if (row[i] == null)
+                                        {
+                                            VALS += "NULL,";
+                                        }
+                                        else
+                                        {
+                                            string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
+                                            VALS += "N('" + val + "')" + ",";
+                                        }
                                     }
-                                }
-                                else if (row.Table.Columns[i].DataType == typeof(string))
-                                {
-                                    if (row[i] == null)
+                                    else if (row.Table.Columns[i].DataType == typeof(int))
                                     {
-                                        VALS += "NULL,";
+                                        if (row[i] == null)
+                                        {
+                                            VALS += "0,";
+                                        }
+                                        else
+                                        {
+                                            VALS += row[i] + ",";
+                                        }
                                     }
-                                    else
+                                    else//bool
                                     {
-                                        string val = row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString();
-                                        VALS += "N('" + val + "')" + ",";
-                                    }
-                                }
-                                else if (row.Table.Columns[i].DataType == typeof(int))
-                                {
-                                    if (row[i] == null)
-                                    {
-                                        VALS += "0,";
-                                    }
-                                    else
-                                    {
-                                        VALS += row[i] + ",";
-                                    }
-                                }
-                                else//bool
-                                {
-                                    if (row[i].ToString() == "True")
-                                    {
-                                        VALS += "1,";
-                                    }
-                                    else
-                                    {
-                                        VALS += "0,";
+                                        if (row[i].ToString() == "True")
+                                        {
+                                            VALS += "1,";
+                                        }
+                                        else
+                                        {
+                                            VALS += "0,";
+                                        }
                                     }
                                 }
                             }
                         }
+
+
+                        COLS = COLS.TrimEnd(',');
+                        VALS = VALS.TrimEnd(',');
+
+                        finalQ += "\r\n" + string.Format(q, COLS, VALS);
                     }
+                    else
+                    {
+                        var whereCols = txtWhereCols.Text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList().FindAll(o => (o != null && o.Trim() != ""));
 
+                        string setPart = "";
+                        string wherePart = "";
 
-                    COLS = COLS.TrimEnd(',');
-                    VALS = VALS.TrimEnd(',');
+                        for (int i = 0; i < row.ItemArray.Length; i++)
+                        {
+                            if (!ignoreColumns.Contains(row.Table.Columns[i].ColumnName) && !whereCols.Contains(row.Table.Columns[i].ColumnName))
+                            {
+                                setPart += row.Table.Columns[i].ColumnName + "=";
 
-                    finalQ += "\r\n" + string.Format(q, COLS, VALS);
+                                if (row.Table.Columns[i].DataType == typeof(string))
+                                {
+                                    setPart += "N'" + (row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString()) + "',";
+                                }
+                                else if (row.Table.Columns[i].DataType == typeof(int))
+                                {
+                                    setPart += row[i] + ",";
+                                }
+                            }
+                            else if (whereCols.Contains(row.Table.Columns[i].ColumnName))
+                            {
+                                wherePart += row.Table.Columns[i].ColumnName + "=";
+
+                                if (row.Table.Columns[i].DataType == typeof(string))
+                                {
+                                    wherePart += "'" + (row[i].ToString().Contains("'") ? row[i].ToString().Replace("'", "''") : row[i].ToString()) + "' AND ";
+                                }
+                                else if (row.Table.Columns[i].DataType == typeof(int))
+                                {
+                                    wherePart += row[i] + " AND ";
+                                }
+                            }
+                        }
+
+                        setPart = setPart.TrimEnd(',');
+                        if (wherePart.Length != 0)
+                        {
+                            wherePart = "WHERE " + wherePart.Remove(wherePart.Length - 5, 5);
+                        }
+
+                        finalQ += "\r\n" + string.Format(uq, targetTable.Text, setPart, wherePart);
+                    }
                 }
 
                 generatedQuery.Text = finalQ;
